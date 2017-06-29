@@ -1,2 +1,2 @@
 # hadoop-utils
-Hadoop utility command lines
+Hadoop utilities, supporing hadoop2.5.0 or later.
