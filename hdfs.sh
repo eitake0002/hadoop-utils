@@ -279,32 +279,3 @@ function rm-dir()
     fi
 }
 
-# AWSキー設定
-export s3_key_arg="-Dfs.s3n.awsAccessKeyId=$AWS_ACCESS_KEY_ID -Dfs.s3n.awsSecretAccessKey=$AWS_SECRET_ACCESS_KEY"
-
-# Usage:
-#   s3-ls /warehouse
-# Description:
-#   指定ディレクトリ配下を一覧表示
-function s3-ls()
-{
-    hadoop fs $s3_key_arg -ls "s3n://d2c-aurum-warehouse$1"
-}
-
-# Usage:
-#   s3-ls-recursive /warehouse
-# Description:
-#   指定ディレクトリ配下を再起一覧表示
-function s3-ls-recursive()
-{
-    hadoop fs $s3_key_arg -ls -R "s3n://d2c-aurum-warehouse$1"
-}
-
-# Usage:
-#   s3-upload-from-local /warehouse/acct_table s3n://d2c-aurum-warehouse/warehouse
-# Description:
-#   S3へフォルダアップロード
-function s3-upload-from-local()
-{
-    hadoop fs $s3_key_arg -put $1 $2
-}
