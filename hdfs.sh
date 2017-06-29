@@ -1,38 +1,17 @@
-# このファイルについて
+# About this file.
 # 
-# HDFSデータを操作するためのシェルスクリプト・ライブラリです。
-# 必要ディレクトリのリスト化、検索、削除、S3/NASへのバックアップ等。
+# Functions use HDFS(Hadoop Distributed File System).
 # 
-# 【環境】
-# interface03
-# hdfsユーザー（シェルを読み込めば他ユーザーでも使用可能）
-# 
-# 【設定】
-# 1. 当ファイル読み込み
+# How to use
 # $ source hdfs.sh
-# 2. .bash_profileにAWS/S3アクセスキー、シークレットアクセスキーを設定
+# Then execute function.
 # 
 
-
-# Usage:
-#   list-functions
 # Description:
-#   関数を一覧表示
-function list-functions()
-{
-    cat /var/lib/hadoop-hdfs/scripts/warehouse_keeper/dev_tools/hdfs.sh | grep -B 4 function
-}
-
-#-------------------------------------------------------------------
-# メタデータ取得
-# tag: meta, metadata, meta-data
-#-------------------------------------------------------------------
-
+#   Get metadata.
+#     Owner, Data Size, Last Partition, Last Access DateTime, Last Update DateTime
 # Usage:
-#   get-metadata /user/hive/warehouse/pki_raw_user pki_raw_user
-# Description:
-#   ディレクトリとテーブルを指定しメタデータを取得する。
-#   メタデータ：所有ユーザー、データサイズ、最終日パーティション、最終アクセス時間、最終更新時間
+#   get-metadata /user/hive/warehouse/pki_raw_user <table_name>
 function get-metadata()
 {
     last_partition_date=`hadoop fs -ls $1 | grep -E 'ver=[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1 | awk '{print $8}'`
@@ -47,22 +26,24 @@ function get-metadata()
     echo "$2,$own_user,$total_file_size,$last_partition_date,$last_access_date,$last_update_date"
 }
 
+# Description:
+#   Get all metadata listed on file.
+#   Beforehand, you need to put the file listed table names.
 # Usage:
 #   get-metadata-list
-# Description:
-#   テーブルリストを読み込み、全てのテーブルのメタデータを取得する。
 function get-metadata-list()
 {
     while read line
     do
         get-metadata "/user/hive/warehouse/$line" $line
-    done < default_table_list.csv
+    done < table_list.csv
 }
 
+# Description:
+#   Get all detailed metadata listed on file.
+#   Beforehand, you need to put the file listed table names.
 # Usage: 
 #   create-hive-query-list
-# Description:
-#   テーブルリストを読み込み、全てのテーブルに対し"desc formatted table_name"を実行する。
 function create-hive-query-list()
 {
     hive_query=""
@@ -73,10 +54,11 @@ function create-hive-query-list()
     hive -e "$hive_query"
 }
 
+# Description:
+#   Get all detailed metadata listed on file.
+#   Beforehand, you need to put the file listed table names.
 # Usage:
 #   get-show-extended-table-list
-# Description:
-#   全てのDefaultテーブルに"show table extended like tbl_name"を実行し表示する。
 function get-show-extended-table-list()
 {
     while read line
@@ -85,55 +67,50 @@ function get-show-extended-table-list()
     done < default_table_list.csv
 }
 
-
-#-------------------------------------------------------------------
-# 検索、一覧表示コマンド
-# tag: search, list, ichiran, 
-#-------------------------------------------------------------------
-
-### サイズ条件
-### tag: size, size condition, size-condition
-
-# Usage:
-#   list-item-size /user/hive/warehouse
 # Description:
-#   ディレクトリ・サイズ一覧表示
-function list-item-size()
+#   Get directory size list.
+# Usage:
+#   get-size-list <hdfs_path>
+function get-size-list()
 {
     hadoop fs -du -s "$1/*"
 }
 
-# Usage:
-#   list-item-size-sort /user/hive/warehouse
 # Description:
-#   ディレクトリ・サイズ一覧をソートして表示
+#   Get directory list with sort.
+# Usage:
+#   get-size-list-sort <hdfs_path>
 function list-item-size-sort()
 {
     hadoop fs -du -s "$1/*" | sort -k 1 -n
 }
 
-# Usage:
-#   list-table-size-sort /user/hive/warehouse 10
 # Description:
-#   指定ディレクトリ配下のテーブルをデータサイズ順に表示
-function list-table-size-sort()
+#   Get table list with sort in specified directory.
+# Usage:
+#   get-table-size-list-sort <hdfs_path> <top_number>
+# Example:
+#   get-table-size-list-sort /user/hive/warehouse 10
+function get-table-size-list-sort()
 {
     hadoop fs -du -s "$1/*" | grep -v '.db' | sort -k 1 -n -r | head "-$2" | awk '{printf "%\047d ",$1; print $3}'
 }
 
-# Usage: 
-#   list-zero-data /user/hive/wearehouse
 # Description: 
-#   空ディレクトリを一覧表示
-function list-zero-data()
+#   Get empty directory list.
+# Usage:
+#   get-size-zero-data <hdfs_path>
+# Example: 
+#   get-size-zero-data /user/hive/wearehouse
+function get-size-zero-data()
 {
     hadoop fs -du -s "$1/*" | grep -e '^0'
 }
 
+# Description:
+#   Get directory num(count).
 # Usage:
 #   count-item /user/hive/warehouse
-# Description:
-#   ディレクトリ数をカウント
 function count-item()
 {
     hadoop fs -ls "$1/*" | sed -e '1d' | wc -l
