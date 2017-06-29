@@ -70,3 +70,31 @@ function cut-partition()
   field_num=$2
   hive -e "show partitions ${table_name}" | cut -d '/' -f ${field_num}
 }
+
+# Description:
+#   Create hive table.
+# Usage:
+#   create-table <db_name> <table_name> <cols>
+# Example:
+#   create-table default my_table "col_1, col2"
+function create-table()
+{
+  db_name=$1
+  table_name=$2
+  cols=$3
+  
+  hiveql="
+    USE $db_name;
+
+    CREATE TABLE ${table_name}_parq(
+      ${cols}
+    )
+    PARTITIONED BY (ver string, sub_ver string, fname string)
+    ROW FORMAT DELIMITED
+      FIELDS TERMINATED BY '\t'
+      LINES TERMINATED BY '\n'
+    STORED AS PARQUET;
+  "
+  echo "$hiveql"
+  hive -e "${hiveql}"
+}
