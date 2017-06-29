@@ -57,3 +57,16 @@ function load-data()
 {
     hive -e 'LOAD DATA [LOCAL] INPATH "filepath" [OVERWRITE] INTO TABLE tablename [PARTITION (partcol1=val1, partcol2=val2 ...)]'
 }
+
+# Description:
+#   Get cut partitions.
+# Usage:
+#   cut-partition <table_name> <field_number>
+# Example:
+#   cut-partition my_table 1
+function cut-partition()
+{
+  table_name=$1
+  field_num=$2
+  hive -e "show partitions ${table_name}" | cut -d '/' -f ${field_num}
+}
