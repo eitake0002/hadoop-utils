@@ -1,29 +1,25 @@
 # About this file.
 # 
-# Functions use HDFS(Hadoop Distributed File System).
+# Functions to use HDFS(Hadoop Distributed File System).
 # 
 # How to use
 # $ source hdfs.sh
-# Then execute function.
+# ... Execute function.
 # 
 
 # Description:
-#   Get metadata.
-#     Owner, Data Size, Last Partition, Last Access DateTime, Last Update DateTime
+#   Get extended meta data.
 # Usage:
-#   get-metadata /user/hive/warehouse/pki_raw_user <table_name>
-function get-metadata()
+#   get-metadata-extended <database> <table>
+# Example:
+#   get-metadata-exntended default my_table
+function get-metadata-extended()
 {
-    last_partition_date=`hadoop fs -ls $1 | grep -E 'ver=[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1 | awk '{print $8}'`
 
-    hive_query="use default; show table extended like $2"
-    extended_data=`hive -e "$hive_query" 2>/dev/null`
+    $database=$1
+    $table=$2
+    hive -e "use ${database}; show table extended like ${table_name}"
 
-    own_user=`echo "$extended_data" | grep -e 'owner' | sed 's/owner://'`
-    total_file_size=`echo "$extended_data" | grep -e 'totalFileSize' | sed 's/totalFileSize://'`
-    last_access_date=`echo "$extended_data" | grep -e 'lastAccessTime' | grep -o -E '[0-9]{13}' | cut -c 1-10 | xargs -I val date -d "@val" | sed 's/ //g'`
-    last_update_date=`echo "$extended_data" | grep -e 'lastUpdateTime' | grep -o -E '[0-9]{13}' | cut -c 1-10 | xargs -I val date -d "@val" | sed 's/ //g'`
-    echo "$2,$own_user,$total_file_size,$last_partition_date,$last_access_date,$last_update_date"
 }
 
 # Description:
