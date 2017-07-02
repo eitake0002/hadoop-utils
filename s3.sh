@@ -8,7 +8,7 @@
 
 # Set aws keys.
 export s3_key_arg="-Dfs.s3n.awsAccessKeyId=$AWS_ACCESS_KEY_ID -Dfs.s3n.awsSecretAccessKey=$AWS_SECRET_ACCESS_KEY"
-export s3_bucket_name=d2c-aurum-warehouse
+export s3_bucket_name=<bucket_name>
 export s3_url="s3n://$s3_bucket_name"
 
 
