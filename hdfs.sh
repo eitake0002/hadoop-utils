@@ -26,8 +26,8 @@ function get-metadata-extended()
 #   Get all metadata listed on file.
 #   Beforehand, you need to put the file listed table names.
 # Usage:
-#   get-metadata-list
-function get-metadata-list()
+#   get-metadata-from-table-list
+function get-metadata-from-table-list()
 {
     while read line
     do
