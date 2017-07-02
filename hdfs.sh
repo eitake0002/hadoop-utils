@@ -29,11 +29,9 @@ function get-metadata()
 #   get-metadata-exntended default my_table
 function get-metadata-extended()
 {
-
     $database=$1
     $table=$2
     hive -e "use ${database}; show table extended like ${table_name}"
-
 }
 
 # Description:
@@ -50,7 +48,7 @@ function get-metadata-from-table-list()
 }
 
 # Description:
-#   Get all detailed metadata listed on file.
+#   Get all detailed metadata listed in a file.
 #   Beforehand, you need to put the file listed table names.
 # Usage: 
 #   create-hive-query-list
@@ -62,19 +60,6 @@ function create-hive-query-list()
         hive_query=$hive_query"desc formatted $line;"
     done < default_table_list.csv
     hive -e "$hive_query"
-}
-
-# Description:
-#   Get all detailed metadata listed on file.
-#   Beforehand, you need to put the file listed table names.
-# Usage:
-#   get-show-extended-table-list
-function get-show-extended-table-list()
-{
-    while read line
-    do
-        hive -e "show table extended like $line"
-    done < default_table_list.csv
 }
 
 # Description:
