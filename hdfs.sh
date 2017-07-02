@@ -7,6 +7,20 @@
 # ... Execute function.
 # 
 
+
+# Description:
+#   Desc tables.
+# Usage:
+#   get-metadata <database> <table>
+# Example:
+#   get-metadata default my_table
+function get-metadata()
+{
+  $database=$1
+  $table=$2
+  hive -e "use ${database}; desc ${table}"
+}
+
 # Description:
 #   Get extended meta data.
 # Usage:
