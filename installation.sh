@@ -26,3 +26,10 @@ function download-hadoop-pkg()
 {
   wget http://ftp.riken.jp/net/apache/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
 }
+
+# Description:
+#   Uncompress download file.
+function uncompress-tar-gz()
+{
+  tar -zxvf hadoop-2.8.0.tar.gz
+}
