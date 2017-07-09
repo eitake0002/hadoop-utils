@@ -10,3 +10,7 @@ OS : CentOS6.0 or later
 Hadoop : 2.5.0 or later
 
 Hive : 0.14 or later
+
+Mirror Donwload site
+
+http://www.apache.org/dyn/closer.cgi/hadoop/common/
