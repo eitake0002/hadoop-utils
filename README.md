@@ -14,3 +14,7 @@ Hive : 0.14 or later
 Mirror Donwload site
 
 http://www.apache.org/dyn/closer.cgi/hadoop/common/
+
+Hive Official Document
+
+https://cwiki.apache.org/confluence/display/Hive/Home
