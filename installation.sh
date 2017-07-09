@@ -12,3 +12,10 @@ function java-version()
 {
   java -version
 }
+
+# Description:
+#   Install requiement tools for install.
+function install-requirement-tools()
+{
+  yum -y install openssh-clients rsync wget
+}
