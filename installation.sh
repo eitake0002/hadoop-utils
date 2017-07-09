@@ -19,3 +19,10 @@ function install-requirement-tools()
 {
   yum -y install openssh-clients rsync wget
 }
+
+# Description:
+#   Download hadoop2.8.0 package.
+function download-hadoop-pkg()
+{
+  wget http://ftp.riken.jp/net/apache/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
+}
