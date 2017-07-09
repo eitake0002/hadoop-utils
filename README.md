@@ -15,6 +15,10 @@ Mirror Donwload site
 
 http://www.apache.org/dyn/closer.cgi/hadoop/common/
 
+Hadoop2.8.0 Official Document
+
+https://hadoop.apache.org/docs/r2.8.0/
+
 Hive Official Document
 
 https://cwiki.apache.org/confluence/display/Hive/Home
