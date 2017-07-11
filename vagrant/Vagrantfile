@@ -36,10 +36,15 @@ Vagrant.configure("2") do |config|
       yum -y install openssh-clients rsync wget
 
       # Download hadoop-common pacakge.
-      wget http://ftp.riken.jp/net/apache/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
+      # wget http://ftp.riken.jp/net/apache/hadoop/common/hadoop-2.8.0/hadoop-2.8.0.tar.gz
 
       # Uncompress hadoop-common package.
-      tar -zxvf hadoop-2.8.0.tar.gz
+      # tar -zxvf hadoop-2.8.0.tar.gz
+
+      wget http://archive.cloudera.com/cdh5/one-click-install/redhat/6/x86_64/cloudera-cdh-5-0.x86_64.rpm
+      yum -y --nogpgcheck localinstall cloudera-cdh-5-0.x86_64.rpm
+
+      yum -y install hadoop-conf-pseudo
     EOT
   end
 
