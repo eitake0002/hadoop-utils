@@ -1,24 +1,28 @@
 # hadoop-utils
-Hadoop utilities mainly using hdfs command and hiveqls, planning to extend more tools like impala, spark, hbase etc..
+Hadoop utilities for hdfs and HiveQL.
 
-Currently, hdfs command utility is the most manuficient. 
+- Create text data.
+- Create Hive table.
+- Load text data.
+- Check HDFS metadata, HiveTable info etc.
 
 supporing hadoop2.5.0 or later.
 
-OS : CentOS6.0 or later
+| Left align | Right align | 
+|:-----------|------------:|
+| OS       | CentOS6.0 or later| 
+| Hadoop     | 2.5 or later     |
+| Hive       | 0.14 or later    |
 
-Hadoop : 2.5.0 or later
 
-Hive : 0.14 or later
-
-Mirror Donwload site
+## Mirror Donwload site
 
 http://www.apache.org/dyn/closer.cgi/hadoop/common/
 
-Hadoop2.8.0 Official Document
+## Hadoop2.8.0 Official Document
 
 https://hadoop.apache.org/docs/r2.8.0/
 
-Hive Official Document
+## Hive Official Document
 
 https://cwiki.apache.org/confluence/display/Hive/Home
